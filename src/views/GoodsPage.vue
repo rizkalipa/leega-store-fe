@@ -29,23 +29,25 @@
 
                     <div class="grid grid-cols-1 gap-x-4 gap-y-7 grid-cols-2 lg:grid-cols-3 mt-6">
                         <div v-for="product in products" :key="product.id" class="group relative">
-                            <div class="relative h-40 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
-                                <img :src="product.image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
-                            </div>
-                            <div class="mt-4 text-left">
-                                <div class="mb-2">
-                                    <p class="text-xs text-amber-700">{{ product.type_product.name }}</p>
-                                    <h3 class="text-xl text-amber-900 font-itim" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
-                                        <a href="#">
-                                            <span aria-hidden="true" class="absolute inset-0"></span>
-                                            {{ product.name }}
-                                        </a>
-                                    </h3>
+                            <router-link :to="`/goods/${product.id}`">
+                                <div class="relative h-40 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                                    <img :src="product.image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                                 </div>
-                                <div class="bg-gradient-to-r from-amber-500 to-pink-500 px-2 py-1 rounded-b-lg">
-                                    <p class="text-sm text-white font-bold text-gray-900 ">Rp 50.000</p>
+                                <div class="mt-4 text-left">
+                                    <div class="mb-2">
+                                        <p class="text-xs text-amber-700">{{ product.type_product.name }}</p>
+                                        <h3 class="text-xl text-amber-900 font-itim" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">
+                                            <a href="#">
+                                                <span aria-hidden="true" class="absolute inset-0"></span>
+                                                {{ product.name }}
+                                            </a>
+                                        </h3>
+                                    </div>
+                                    <div class="bg-gradient-to-r from-amber-500 to-pink-500 px-2 py-1 rounded-b-lg">
+                                        <p class="text-sm text-white font-bold text-gray-900 ">Rp {{ product.price }}</p>
+                                    </div>
                                 </div>
-                            </div>
+                            </router-link>
                         </div>
                     </div>
                 </div>

@@ -36,7 +36,7 @@
 <!--                        </a>-->
 
                         <div v-for="product in products" :key="product.id" class="group relative">
-                            <router-link :to="`foods/${product.id}`">
+                            <router-link :to="`/foods/${product.id}`">
                                 <div class="relative h-40 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                                     <img :src="product.image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
                                 </div>
@@ -51,7 +51,7 @@
                                         </h3>
                                     </div>
                                     <div class="bg-gradient-to-r from-amber-500 to-pink-500 px-2 py-1 rounded-b-lg">
-                                        <p class="text-sm text-white font-bold text-gray-900 ">Rp 50.000</p>
+                                        <p class="text-sm text-white font-bold text-gray-900 ">Rp {{ product.price }}</p>
                                     </div>
                                 </div>
                             </router-link>

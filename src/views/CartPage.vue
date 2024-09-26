@@ -5,81 +5,45 @@
                 <h2 class="2xl font-bold text-amber-950 text-left" id="slide-over-title">Cart Item</h2>
 
                 <div class="mt-8">
-                    <div class="flow-root">
+                    <div v-if="carts.length" class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
-                            <li class="flex py-6">
-                                <div class="w-1/4 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                    <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
+                            <li v-for="cart in carts" :key="cart.id" class="flex py-6">
+                                <div class="h-32 lg:h-44 w-1/4 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
+                                    <img :src="cart.product.image" class="h-full w-full object-cover object-center">
                                 </div>
 
                                 <div class="ml-4 flex flex-1 flex-col">
                                     <div>
-                                        <div class="flex justify-between text-base font-medium text-gray-900">
+                                        <p class="text-sm text-gray-500 text-left">{{ cart.product.type_product.name }}</p>
+                                        <div class="flex justify-between text-base lg:text-xl font-medium text-amber-900">
                                             <h3>
-                                                <a href="#">Throwback Hip Bag</a>
+                                                <a href="#">{{ cart.product.name }}</a>
                                             </h3>
-                                            <p class="ml-4">$90.00</p>
                                         </div>
-                                        <p class="text-sm text-gray-500 text-left">Salmon</p>
                                     </div>
+
+                                    <div class="flex">
+                                        <p class="text-amber-900 font-bold text-base text-left border border-amber-900 px-2 rounded mt-3">Qty {{ cart.qty }}</p>
+                                    </div>
+
                                     <div class="flex flex-1 items-end justify-between text-sm">
-                                        <p class="text-gray-500">Qty 1</p>
+                                        <p class="text-amber-900 text-lg text-left font-bold">Rp {{ parseInt(cart.qty) * parseInt(cart.product.price)  }}</p>
 
                                         <div class="flex">
-                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="flex py-6">
-                                <div class="w-1/4 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                    <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
-                                </div>
-
-                                <div class="ml-4 flex flex-1 flex-col">
-                                    <div>
-                                        <div class="flex justify-between text-base font-medium text-gray-900">
-                                            <h3>
-                                                <a href="#">Throwback Hip Bag</a>
-                                            </h3>
-                                            <p class="ml-4">$90.00</p>
-                                        </div>
-                                        <p class="text-sm text-gray-500 text-left">Salmon</p>
-                                    </div>
-                                    <div class="flex flex-1 items-end justify-between text-sm">
-                                        <p class="text-gray-500">Qty 1</p>
-
-                                        <div class="flex">
-                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="flex py-6">
-                                <div class="w-1/4 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                                    <img src="https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="h-full w-full object-cover object-center">
-                                </div>
-
-                                <div class="ml-4 flex flex-1 flex-col">
-                                    <div>
-                                        <div class="flex justify-between text-base font-medium text-gray-900">
-                                            <h3>
-                                                <a href="#">Throwback Hip Bag</a>
-                                            </h3>
-                                            <p class="ml-4">$90.00</p>
-                                        </div>
-                                        <p class="text-sm text-gray-500 text-left">Salmon</p>
-                                    </div>
-                                    <div class="flex flex-1 items-end justify-between text-sm">
-                                        <p class="text-gray-500">Qty 1</p>
-
-                                        <div class="flex">
-                                            <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">Remove</button>
+                                            <button @click="deleteCart(cart.id)" type="button" class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                                                <span><i class="fas fa-trash-alt"></i></span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </li>
                         </ul>
+                    </div>
+
+                    <div v-else>
+                        <p class="text-xl">
+                            No items in cart.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -87,7 +51,7 @@
             <div class="border-t border-amber-900 px-4 py-6 mt-12">
                 <div class="flex justify-between text-base font-medium text-gray-900">
                     <p>Subtotal</p>
-                    <p>$262.00</p>
+                    <p>Rp {{ totalPrice }}</p>
                 </div>
                 <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                 <div class="mt-6">
@@ -110,8 +74,52 @@
 </template>
 
 <script>
+import {getCarts, deleteCart} from "@/service/CartService";
+
 export default {
-    name: "CartPage"
+    name: "CartPage",
+    data() {
+        return {
+            carts: []
+        }
+    },
+    computed: {
+        totalPrice() {
+            let total = 0
+
+            this.carts.forEach(item => {
+                total += parseInt(item.product.price) * parseInt(item.qty)
+            })
+
+            return total
+        }
+    },
+    methods: {
+        async getData() {
+            try {
+                let res = await getCarts({ user_id: 1 })
+                this.carts = res.data.data
+                console.log(res)
+            } catch (e) {
+                console.log(e)
+            }
+        },
+        async deleteCart(cartId) {
+            try {
+                let params = {
+                    user_id: 1,
+                    cart_id: cartId
+                }
+                await deleteCart(params)
+                this.getData()
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    },
+    mounted() {
+        this.getData()
+    }
 }
 </script>
 

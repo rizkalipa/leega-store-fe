@@ -7,6 +7,7 @@ import ProductDetail from "@/views/ProductDetail.vue";
 import CartPage from "@/views/CartPage.vue";
 import CheckoutPage from "@/views/CheckoutPage.vue";
 import OrderSummaryPage from "@/views/OrderSummaryPage.vue";
+import OrderHistoryPage from "@/views/OrderHistoryPage.vue";
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,10 @@ const routes = [
   },
   {
     path: '/foods/:id',
+    component: ProductDetail
+  },
+  {
+    path: '/goods/:id',
     component: ProductDetail
   },
   {
@@ -44,6 +49,11 @@ const routes = [
     path: '/order-summary',
     name: 'order-summary',
     component: OrderSummaryPage
+  },
+  {
+    path: '/order-history',
+    name: 'order-history',
+    component: OrderHistoryPage
   },
   {
     path: '/about',

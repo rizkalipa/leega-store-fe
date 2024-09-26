@@ -9,12 +9,18 @@
                         </div>
                     </router-link>
 
-                    <router-link to="cart" class="flex items-center">
-                        <p class="text-xl lg:text-2xl"><span><i class="fas fa-shopping-cart"></i></span></p>
-                        <span class="rounded-full bg-red-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-500/10 ml-1">
-                            2
-                        </span>
-                    </router-link>
+                    <div class="flex">
+                        <router-link to="cart" class="flex items-center mr-4 cursor-pointer">
+                            <p class="text-lg lg:text-1xl"><span><i class="fas fa-shopping-cart"></i></span></p>
+<!--                        <span class="rounded-full bg-red-500 px-2 py-1 text-xs font-medium text-white ring-1 ring-inset ring-gray-500/10 ml-1">-->
+<!--                            2-->
+<!--                        </span>-->
+                        </router-link>
+
+                        <router-link to="order-history" class="flex items-center bg-amber-950 py-2 px-3 rounded-full text-white cursor-pointer">
+                            <p class="text-sm lg:text-1xl"><span><i class="fas fa-receipt"></i></span></p>
+                        </router-link>
+                    </div>
                 </div>
                 
                 <router-view/>
@@ -24,18 +30,6 @@
         <div class="bg-custom p-5 text-center absolute bottom-0 w-full border-t-2 border-amber-950">
             <div class="lg:w-6/12 md:w-8/12 w-full mx-auto flex items-center justify-between text-amber-950">
                 <p class="lg:text-lg text-sm">&copy; 2024 Leega Store</p>
-
-                <div class="lg:text-xl text-sm">
-                    <a href="https://www.instagram.com/majelis_jamiatussholihin/" target="_blank" class="mx-3">
-                        <span><i class="fab fa-instagram"></i></span>
-                    </a>
-                    <a href="https://www.youtube.com/@hadrohjamiatussholihin5392" target="_blank" class="mx-3">
-                        <span><i class="fab fa-youtube"></i></span>
-                    </a>
-                    <a href="https://www.tiktok.com/@hadrohjamiatussholihin" target="_blank" class="mx-3">
-                        <span><i class="fab fa-tiktok"></i></span>
-                    </a>
-                </div>
             </div>
         </div>
 
