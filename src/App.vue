@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="relative overflow-hidden bg-custom">
         <div>
-            <div class="lg:w-6/12 md:w-8/12 w-full mx-auto mb-32 text-amber-950 text-3xl tracking-wide px-5 lg:p-0">
+            <div class="lg:w-6/12 md:w-8/12 w-full mx-auto mb-24 text-amber-950 text-3xl tracking-wide px-5 lg:p-0">
                 <div class="flex items-center justify-between border-b-2 border-amber-950">
                     <router-link to="/">
                         <div class="w-20 lg:w-1/5">
@@ -68,6 +68,6 @@ html {
 }
 
 .container {
-    @apply lg:w-6/12 md:w-8/12 w-full mx-auto my-16 mb-32 text-amber-950 text-3xl tracking-wide
+    @apply lg:w-6/12 md:w-8/12 w-full mx-auto my-16 mb-14 text-amber-950 text-3xl tracking-wide
 }
 </style>

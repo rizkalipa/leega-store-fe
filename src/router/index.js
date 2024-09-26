@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import HomePage from "@/views/HomePage.vue";
 import FoodsPage from "@/views/FoodsPage.vue";
 import GoodsPage from "@/views/GoodsPage.vue";
-import FoodDetailPage from "@/views/FoodDetailPage.vue";
+import ProductDetail from "@/views/ProductDetail.vue";
 import CartPage from "@/views/CartPage.vue";
 import CheckoutPage from "@/views/CheckoutPage.vue";
 import OrderSummaryPage from "@/views/OrderSummaryPage.vue";
@@ -23,7 +23,7 @@ const routes = [
   },
   {
     path: '/foods/:id',
-    component: FoodDetailPage
+    component: ProductDetail
   },
   {
     path: '/goods',
