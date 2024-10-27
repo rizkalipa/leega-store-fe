@@ -26,7 +26,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-7 grid-cols-2 lg:grid-cols-3 mt-12">
+                    <div v-if="!isLoading" class="grid grid-cols-1 gap-x-4 gap-y-7 grid-cols-2 lg:grid-cols-3 mt-12">
 <!--                        <a href="#" class="group">-->
 <!--                            <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">-->
 <!--                                <img src="https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-02.jpg" alt="Olive drab green insulated bottle with flared screw lid and flat top." class="h-full w-full object-cover object-center group-hover:opacity-75">-->
@@ -56,7 +56,9 @@
                                 </div>
                             </router-link>
                         </div>
-
+                    </div>
+                    <div v-else class="mt-6 p-6 bg-gray-200 flex justify-center rounded">
+                        <LoadingComponent />
                     </div>
                 </div>
             </div>
@@ -67,13 +69,15 @@
 <script>
 import {getProducts} from "@/service/ProductService";
 import ButtonFilter from "@/components/ButtonFilter.vue";
+import LoadingComponent from "@/components/LoadingComponent.vue";
 
 export default {
     name: "FoodsPage",
-    components: {ButtonFilter},
+    components: {ButtonFilter, LoadingComponent},
     data() {
         return {
-            products: []
+            products: [],
+            isLoading: false
         }
     },
     computed: {
@@ -81,13 +85,16 @@ export default {
     },
     methods: {
         async getData() {
+            this.isLoading = true
+
             try {
                 let res = await getProducts({ type: 1 })
                 this.products = res.data.data
-                console.log(res)
             } catch (e) {
                 console.log(e)
             }
+
+            this.isLoading = false
         }
     },
     mounted() {

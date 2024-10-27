@@ -7,7 +7,7 @@
                 <div class="min-h-[350px] relative z-50 h-full max-w-6xl mx-auto flex flex-col justify-end items-end text-center text-white p-6">
                     <h2 class="sm:text-4xl font-bold mb-6">
                         <span class="text-3xl mr-2 font-itim">Hi,</span>
-                        <span class="bg-gradient-to-r from-amber-100 to-rose-400 bg-clip-text text-transparent font-itim text-5xl">Nabila.</span>
+                        <span class="bg-gradient-to-r from-amber-100 to-rose-400 bg-clip-text text-transparent font-itim text-5xl">Leega.</span>
                     </h2>
 
                     <p class="sm:text-lg text-base text-center text-gray-200 font-medium">Happy shopping with us everyday! &#9996;</p>
@@ -59,25 +59,7 @@
             <div class="mx-auto max-w-2xl lg:max-w-7xl pb-12 lg:pb-12">
                 <h2 class="text-2xl font-bold tracking-tight text-amber-950 text-left">Best Seller</h2>
 
-                <div class="mt-6 grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-2 lg:grid-cols-4">
-<!--                    <div class="group relative">-->
-<!--                        <div class="relative h-50 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">-->
-<!--                            <img src="https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg" alt="Front of men&#039;s Basic Tee in black." class="h-full w-full object-cover object-center lg:h-full lg:w-full">-->
-<!--                        </div>-->
-<!--                        <div class="mt-4 flex justify-between">-->
-<!--                            <div>-->
-<!--                                <h3 class="text-sm text-gray-700">-->
-<!--                                    <a href="#">-->
-<!--                                        <span aria-hidden="true" class="absolute inset-0"></span>-->
-<!--                                        Basic Tee-->
-<!--                                    </a>-->
-<!--                                </h3>-->
-<!--                                <p class="mt-1 text-left text-sm text-gray-500">Black</p>-->
-<!--                            </div>-->
-<!--                            <p class="text-sm font-medium text-gray-900">$35</p>-->
-<!--                        </div>-->
-<!--                    </div>-->
-
+                <div v-if="!isLoading" class="mt-6 grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-2 lg:grid-cols-4">
                     <div v-for="product in productBestSeller" :key="product.id" class="group relative">
                         <div class="relative h-40 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                             <img :src="product.image" class="h-full w-full object-cover object-center lg:h-full lg:w-full">
@@ -97,7 +79,9 @@
                             </div>
                         </div>
                     </div>
-
+                </div>
+                <div v-else class="mt-6 p-6 bg-gray-200 flex justify-center rounded">
+                    <LoadingComponent />
                 </div>
             </div>
         </div>
@@ -106,12 +90,15 @@
 
 <script>
 import {getBestSellerProduct} from "@/service/ProductService";
+import LoadingComponent from "@/components/LoadingComponent.vue";
 
 export default {
     name: "HomePage",
+    components: {LoadingComponent},
     data() {
         return {
-            productBestSeller: {}
+            productBestSeller: {},
+            isLoading: false
         }
     },
     computed: {
@@ -119,12 +106,16 @@ export default {
     },
     methods: {
         async getDataBestSeller() {
+            this.isLoading = true
+
             try {
                 let res = await getBestSellerProduct({})
                 this.productBestSeller = res.data.data
             } catch (e) {
                 console.log(e)
             }
+
+            this.isLoading = false
         }
     },
     mounted() {

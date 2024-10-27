@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-7 grid-cols-2 lg:grid-cols-3 mt-6">
+                    <div v-if="!isLoading" class="grid grid-cols-1 gap-x-4 gap-y-7 grid-cols-2 lg:grid-cols-3 mt-6">
                         <div v-for="product in products" :key="product.id" class="group relative">
                             <router-link :to="`/goods/${product.id}`">
                                 <div class="relative h-40 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
@@ -50,6 +50,9 @@
                             </router-link>
                         </div>
                     </div>
+                    <div v-else class="mt-6 p-6 bg-gray-200 flex justify-center rounded">
+                        <LoadingComponent />
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,13 +62,15 @@
 <script>
 import {getProducts} from "@/service/ProductService";
 import ButtonFilter from "@/components/ButtonFilter.vue";
+import LoadingComponent from "@/components/LoadingComponent.vue";
 
 export default {
     name: "GoodsPage",
-    components: {ButtonFilter},
+    components: {ButtonFilter, LoadingComponent},
     data() {
         return {
-            products: []
+            products: [],
+            isLoading: false
         }
     },
     computed: {
@@ -73,6 +78,8 @@ export default {
     },
     methods: {
         async getData() {
+            this.isLoading = true
+
             try {
                 let res = await getProducts({ type: 2 })
                 this.products = res.data.data
@@ -80,6 +87,8 @@ export default {
             } catch (e) {
                 console.log(e)
             }
+
+            this.isLoading = false
         }
     },
     mounted() {

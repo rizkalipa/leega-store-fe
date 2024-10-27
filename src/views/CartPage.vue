@@ -4,7 +4,7 @@
             <div class="flex-1">
                 <h2 class="2xl font-bold text-amber-950 text-left" id="slide-over-title">Cart Item</h2>
 
-                <div class="mt-8">
+                <div v-if="!isLoading" class="mt-8">
                     <div v-if="carts.length" class="flow-root">
                         <ul role="list" class="-my-6 divide-y divide-gray-200">
                             <li v-for="cart in carts" :key="cart.id" class="flex py-6">
@@ -46,6 +46,9 @@
                         </p>
                     </div>
                 </div>
+                <div v-else class="mt-6 p-6 bg-gray-200 flex justify-center rounded">
+                    <LoadingComponent />
+                </div>
             </div>
 
             <div class="border-t border-amber-900 px-4 py-6 mt-12">
@@ -75,12 +78,15 @@
 
 <script>
 import {getCarts, deleteCart} from "@/service/CartService";
+import LoadingComponent from "@/components/LoadingComponent.vue";
 
 export default {
     name: "CartPage",
+    components: {LoadingComponent},
     data() {
         return {
-            carts: []
+            carts: [],
+            isLoading: false
         }
     },
     computed: {
@@ -96,6 +102,8 @@ export default {
     },
     methods: {
         async getData() {
+            this.isLoading = true
+
             try {
                 let res = await getCarts({ user_id: 1 })
                 this.carts = res.data.data
@@ -103,8 +111,12 @@ export default {
             } catch (e) {
                 console.log(e)
             }
+
+            this.isLoading = false
         },
         async deleteCart(cartId) {
+            this.isLoading = true
+
             try {
                 let params = {
                     user_id: 1,
